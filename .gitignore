@@ -7,4 +7,5 @@ __pycache__/
 *.tsbuildinfo
 frontend/node_modules/
 frontend/dist/
+data 5/
 .DS_Store
