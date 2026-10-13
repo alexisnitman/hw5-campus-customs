@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "campus_customs": {
+      "command": ".venv/bin/python",
+      "args": ["mcp_server/mcp_server.py"],
+      "cwd": "/Users/alexisnitman/Documents/AI Foundations/HW 5"
+    }
+  }
+}

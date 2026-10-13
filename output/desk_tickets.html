@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Campus Customs Ticket Desk</title>
+  <style>
+    :root { color: #18324b; background: #eef5f7; font: 16px/1.55 Arial, sans-serif; }
+    body { margin: 0; padding: 2rem; }
+    main { max-width: 960px; margin: auto; }
+    h1 { color: #0b4264; }
+    .tabs { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.5rem 0; }
+    button { border: 0; border-radius: 999px; padding: .7rem 1rem; background: #c9dce5; color: #18324b; cursor: pointer; font-weight: 700; }
+    button.active, button:hover { background: #0b5d82; color: white; }
+    .panel { display: none; background: white; border: 1px solid #c8d9e1; border-radius: 16px; padding: 1.5rem; box-shadow: 0 5px 18px #4262731c; }
+    .panel.active { display: block; }
+    h2 { margin-top: 0; color: #0b5d82; }
+    h3 { color: #315f76; margin-bottom: .35rem; }
+    .box { border-left: 4px solid #0b5d82; background: #f2f8fa; padding: 1rem 1.2rem; margin: 1rem 0; }
+    .actual { min-height: 5rem; border: 1px dashed #9bb5c1; border-radius: 10px; padding: 1rem; color: #6d7f87; }
+    li { margin: .45rem 0; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Campus Customs operations desk</h1>
+  <p>Expected agent plans are recorded before the backend team is run. The Actual sections are reserved for the later comparison.</p>
+
+  <nav class="tabs" aria-label="Desk tabs">
+    <button class="tab active" data-target="ticket-101">Ticket 101</button>
+    <button class="tab" data-target="ticket-102">Ticket 102</button>
+    <button class="tab" data-target="ticket-103">Ticket 103</button>
+    <button class="tab" data-target="cash">Cash</button>
+    <button class="tab" data-target="reflection">Reflection</button>
+  </nav>
+
+  <section id="ticket-101" class="panel active">
+    <h2>Ticket 101 — Bulldog Tee, size S</h2>
+    <div class="box"><h3>Expected</h3>
+      <p><strong>Call first:</strong> Boss should call Inventory first because the customer's request depends on the exact SKU, size, and current quantity. The team must know whether the size can be fulfilled before Customer Service writes back.</p>
+      <p><strong>Delegations:</strong></p>
+      <ol>
+        <li>Inventory checks the size-S stock, product location, and whether the linked reprint changes the fulfillment picture.</li>
+        <li>Customer Service then prepares a truthful customer response using Inventory's result, clearly saying the size is unavailable if stock is zero and avoiding a delivery promise.</li>
+        <li>Accounting reviews the linked reprint invoice only because it is an open financial commitment; it flags approval rather than authorizing payment.</li>
+      </ol>
+      <p><strong>Expected MCP tools:</strong> <code>get_customer_order_context(ticket_id=101)</code> for the ticket, inventory, price, invoice, and vendor evidence. No rent or bulk-discount tool is needed.</p>
+    </div>
+    <h3>Actual</h3><div class="actual"><strong>Agents and delegation:</strong> Boss routed the ticket to Inventory first, then Customer Service and Accounting, and synthesized their reports. Inventory confirmed size-S stock is 0; Customer Service prepared truthful unavailable-item wording; Accounting flagged the open reprint invoice and approval need.<br><strong>MCP tools used:</strong> <code>get_customer_order_context(101)</code> through the MCP server; no direct database tool bypassed MCP.<br><strong>Result:</strong> Human-approved invoice payment resolved the ticket. No customer fulfillment promise was made.</div>
+  </section>
+
+  <section id="ticket-102" class="panel">
+    <h2>Ticket 102 — Rent due</h2>
+    <div class="box"><h3>Expected</h3>
+      <p><strong>Call first:</strong> Boss should call Facilities first because this is a lease and premises deadline, not a product issue. Facilities can confirm the space, landlord, due date, and business date before anyone discusses payment.</p>
+      <p><strong>Delegations:</strong></p>
+      <ol>
+        <li>Facilities verifies the rent notice against the lease and identifies the timing risk.</li>
+        <li>Accounting checks the recorded cash position, open invoice/payment records, and the approval needed for any rent action.</li>
+        <li>Boss combines the two reports and sends the payment decision to a human approver; no Inventory or Customer Service delegation is necessary.</li>
+      </ol>
+      <p><strong>Expected MCP tools:</strong> <code>get_rent_notice_context(ticket_id=102)</code> for lease/date facts, followed by <code>get_cash_position()</code> for cash and payment evidence.</p>
+    </div>
+    <h3>Actual</h3><div class="actual"><strong>Agents and delegation:</strong> Boss routed the ticket to Facilities first and then Accounting. Facilities verified the lease, landlord, rent, and due date; Accounting reviewed cash and payment controls; Boss prioritized the rent decision.<br><strong>MCP tools used:</strong> <code>get_rent_notice_context(102)</code> and <code>get_cash_position()</code> through MCP.<br><strong>Result:</strong> Human-approved rent payment resolved the ticket and reduced checking to $160.</div>
+  </section>
+
+  <section id="ticket-103" class="panel">
+    <h2>Ticket 103 — Bulk hoodie discount</h2>
+    <div class="box"><h3>Expected</h3>
+      <p><strong>Call first:</strong> Boss should call Inventory first because the request is for 20 specific medium hoodies and the team must establish whether that quantity is physically available before discussing a discount.</p>
+      <p><strong>Delegations:</strong></p>
+      <ol>
+        <li>Inventory compares the requested quantity with size-M stock and reports the shortfall, if any, without inventing a restock date.</li>
+        <li>Accounting evaluates unit cost, list price, cash exposure, and the margin/approval implications of a possible bulk price override.</li>
+        <li>Boss prepares a conditional recommendation for a human approver. Customer Service is not needed until an approved offer and actual availability exist.</li>
+      </ol>
+      <p><strong>Expected MCP tools:</strong> <code>get_bulk_discount_context(ticket_id=103)</code> for requested quantity, stock, cost, and list price, followed by <code>get_cash_position()</code> if the financial exposure needs checking. No lease tool is needed.</p>
+    </div>
+    <h3>Actual</h3><div class="actual"><strong>Agents and delegation:</strong> Boss routed the ticket to Inventory first and then Accounting. Inventory found 8 medium hoodies against a request for 20; Accounting reviewed cost, list price, cash exposure, and approval requirements; Boss sent the decision to a human approver.<br><strong>MCP tools used:</strong> <code>get_bulk_discount_context(103)</code> and <code>get_cash_position()</code> through MCP.<br><strong>Result:</strong> Stock was short by 12 and the agents prepared a potential $440 purchase recommendation. No human approval was recorded, so the ticket remains open and checking stayed at $160.</div>
+  </section>
+
+  <section id="cash" class="panel"><h2>Cash</h2><div class="box"><h3>Fresh run cash ledger</h3><p><strong>Starting checking balance:</strong> $3,400.00 after reset.</p><ul><li><strong>Ticket 101:</strong> −$840.00, paid invoice 501 for the recorded rush reprint after human approval. Balance: $2,560.00.</li><li><strong>Ticket 102:</strong> −$2,400.00, paid the recorded monthly rent after human approval. Balance: $160.00.</li><li><strong>Ticket 103:</strong> $0.00 change. The potential purchase would be 20 × $22.00 = $440.00, but the agents cannot approve it. Ticket 103 remains open until a human approves the purchase.</li></ul><p><strong>Ending checking balance:</strong> $160.00. This matches `cash_accounts.balance` in `campus_customs_new.db` after the fresh run.</p></div></section>
+  <section id="reflection" class="panel">
+    <h2>Reflection</h2>
+    <div class="box"><h3>How the agents performed</h3>
+      <p><strong>Ticket 101 — Bulldog Tee:</strong> I thought this was a strong run. The team checked the exact size instead of assuming that “tee” meant it was available. Inventory found zero size-S shirts in Aisle B. Customer Service had a usable response, and Accounting caught that the $840 reprint invoice did not mean the reprint was finished. The team did not promise Tauhid a date it could not support.</p>
+      <p><strong>Ticket 102 — Rent:</strong> This was the cleanest run. Facilities went straight to the lease, found the $2,400 Chapel Street rent and September 2 due date, and Accounting checked the cash. Boss treated it as time-sensitive, and I approved the payment. The ticket was resolved and checking dropped to $160.</p>
+      <p><strong>Ticket 103 — Bulk hoodie discount:</strong> The team correctly found the real problem: Inventory found 8 medium hoodies when Yale AI Club asked for 20, and Accounting calculated the $440 purchase. The agents stopped at the approval boundary. Ticket 103 remains open because I have not approved the purchase, which is the behavior I wanted.</p>
+    </div>
+    <div class="box"><h3>Expected plan compared with what actually happened</h3>
+      <p><strong>Ticket 101:</strong> My plan was Inventory first, followed by Customer Service and Accounting. That is how the run actually went. <code>get_customer_order_context(101)</code> supplied the stock, price, invoice, and vendor facts, so there was no need to send every specialist into the ticket.</p>
+      <p><strong>Ticket 102:</strong> I expected Facilities to go first and Accounting to follow. That happened. The team used <code>get_rent_notice_context(102)</code> and <code>get_cash_position()</code>, which was enough to check the lease, timing, and money before approval.</p>
+      <p><strong>Ticket 103:</strong> I expected Inventory first and Accounting second, and the actual run followed that plan too. It used <code>get_bulk_discount_context(103)</code> and <code>get_cash_position()</code>. Customer Service stayed out because there was no approved offer or delivery date to give the club.</p>
+      <p>The Cash tab makes the outcome easy to see: the approved $840 invoice and $2,400 rent changed the balance from $3,400 to $160. The possible $440 hoodie purchase did not change cash because it still needs my approval.</p>
+    </div>
+    <div class="box"><h3>What would be simpler with one agent and tools?</h3>
+      <p>For just these three tickets, one agent with the same tools would have been simpler. It could read Ticket 103, see 8 hoodies versus 20 requested, check the $160 balance, and explain the problem in one pass. That would mean fewer model calls and fewer reports to combine.</p>
+      <p>The five roles still have a benefit when the shop is busier. Separating stock, money, rent, and customer wording makes it less likely that one agent will overlook an important detail. Ticket 102 is a good example: Facilities knew the lease, while Accounting checked whether the payment was possible.</p>
+    </div>
+    <div class="box"><h3>Three new problems this team could solve now</h3>
+      <ol>
+        <li><strong>A customer asks for a sold-out size.</strong> Inventory could check the exact SKU and size, Customer Service could explain the shortage, and Accounting could look at a real reprint invoice before anyone promises a replacement.</li>
+        <li><strong>A new vendor bill arrives.</strong> Accounting could check the invoice, cash, payment history, and vendor record, while Boss sends it to a human for approval. Ticket 101 shows why an open invoice should not automatically be paid.</li>
+        <li><strong>Another student group asks for a bulk order.</strong> Inventory could compare the request with stock, Accounting could check cost and cash, and Customer Service could wait for an approved offer. Ticket 103 is exactly this kind of problem.</li>
+      </ol>
+    </div>
+    <div class="box"><h3>Three problems this app cannot solve yet</h3>
+      <ol>
+        <li><strong>Actually reorder the missing hoodies or confirm a shipment.</strong> The team can see Bulldog Print Co and its five-day lead-time entry, but it cannot contact the vendor, place an order, or update stock. It would need a protected purchasing and vendor-contact tool.</li>
+        <li><strong>Handle a return or refund.</strong> The current database has tickets, inventory, invoices, and cash, but it has no customer orders, return records, or refund history. It would need secure order lookup, return-status, and refund tools.</li>
+        <li><strong>Fix a physical store problem.</strong> Facilities can read the Chapel Street lease, but it cannot report a broken freezer, schedule a repair, or confirm that work was completed. It would need maintenance tickets, repair scheduling, and a way to record the final cost.</li>
+      </ol>
+      <p>These limits are important. The team can look things up and make recommendations, but it should not pretend it contacted a vendor or completed a refund. In this run, the approval boundary is visible in the final $160 balance: only the two actions I approved changed the cash.</p>
+    </div>
+  </section>
+</main>
+<script>
+  document.querySelectorAll('.tab').forEach(button => button.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(item => item.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(panel => panel.classList.remove('active'));
+    button.classList.add('active');
+    document.getElementById(button.dataset.target).classList.add('active');
+  }));
+</script>
+</body>
+</html>

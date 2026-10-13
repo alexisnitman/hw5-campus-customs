@@ -1,0 +1,83 @@
+{
+  "database": "data 5/campus_customs_new.db",
+  "connection": ".mcp.json -> campus_customs",
+  "tests": [
+    {
+      "prompt": "What is the current status of customer ticket 101, including the requested size, stock, price, and any linked reprint information?",
+      "tool_name": "get_customer_order_context",
+      "arguments": {"ticket_id": 101},
+      "tool_output": {
+        "ticket": {
+          "ticket_id": 101,
+          "type": "customer_order",
+          "requester": "Tauhid Zaman",
+          "subject": "Bulldog tee",
+          "sku": "CC-TEE-WHITE",
+          "size": "S",
+          "requested_qty": 1,
+          "ticket_status": "open",
+          "notes": "Needs a tee in size S.",
+          "product_name": "Classic Bulldog Tee",
+          "stock_qty": 0,
+          "location": "Aisle B",
+          "unit_cost": 8.0,
+          "list_price": 28.0,
+          "invoice_id": 501,
+          "invoice_amount": 840.0,
+          "invoice_due_date": "2026-08-28",
+          "invoice_status": "open",
+          "invoice_description": "Rush reprint CC-TEE-WHITE S",
+          "vendor_name": "Bulldog Print Co",
+          "vendor_specialty": "apparel reprint",
+          "vendor_lead_days": 5
+        }
+      }
+    },
+    {
+      "prompt": "What lease and date information should the agent use to handle open rent ticket 102?",
+      "tool_name": "get_rent_notice_context",
+      "arguments": {"ticket_id": 102},
+      "tool_output": {
+        "ticket": {
+          "ticket_id": 102,
+          "type": "rent_notice",
+          "requester": "Elm City Properties",
+          "subject": "Rent due",
+          "ticket_status": "open",
+          "notes": "Email: shop rent due in 2 days.",
+          "created_at": "2026-08-31T11:05:00-04:00",
+          "lease_id": 1,
+          "space_name": "Chapel Street shop",
+          "landlord": "Elm City Properties",
+          "monthly_rent": 2400.0,
+          "next_due": "2026-09-02",
+          "lease_notes": null,
+          "date_today": "2026-08-31"
+        }
+      }
+    },
+    {
+      "prompt": "Can the shop fulfill the 20 medium navy hoodies in ticket 103, and what real pricing facts should be considered for a bulk discount?",
+      "tool_name": "get_bulk_discount_context",
+      "arguments": {"ticket_id": 103},
+      "tool_output": {
+        "ticket": {
+          "ticket_id": 103,
+          "type": "price_override",
+          "requester": "Yale AI Club",
+          "subject": "Bulk hoodie discount",
+          "sku": "CC-HOOD-NAVY",
+          "size": "M",
+          "requested_qty": 20,
+          "ticket_status": "open",
+          "notes": "Student org wants 20 hoodies, size M, asking for a bulk discount.",
+          "product_name": "Basic Hoodie Big Yale",
+          "stock_qty": 8,
+          "location": "Aisle A",
+          "unit_cost": 22.0,
+          "list_price": 58.0
+        }
+      }
+    }
+  ]
+}

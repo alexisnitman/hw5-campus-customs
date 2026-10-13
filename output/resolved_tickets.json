@@ -1,0 +1,43 @@
+{
+  "starting_checking_balance": 3400.0,
+  "ending_checking_balance": 160.0,
+  "tickets": [
+    {
+      "ticket_id": 101,
+      "final_status": "resolved",
+      "short_outcome": "Size-S Bulldog Tee stock was zero; the verified $840 reprint invoice was paid after human approval, without promising fulfillment timing.",
+      "agents": [
+        {"role": "Inventory", "contribution": "Checked exact SKU/size stock and reprint context."},
+        {"role": "Customer Service", "contribution": "Prepared truthful customer wording about unavailable stock."},
+        {"role": "Accounting", "contribution": "Reviewed the open reprint invoice and approval risk."},
+        {"role": "Boss", "contribution": "Delegated the work and synthesized an approval-aware plan."}
+      ],
+      "mcp_tools": ["get_customer_order_context"],
+      "human_approvals": [{"approved_by": "Alexis Nitman", "kind": "invoice", "amount": 840.0, "checking_balance_after": 2560.0}]
+    },
+    {
+      "ticket_id": 102,
+      "final_status": "resolved",
+      "short_outcome": "The Chapel Street rent notice was verified and the $2,400 monthly rent was paid after human approval.",
+      "agents": [
+        {"role": "Facilities", "contribution": "Verified the lease, landlord, space, due date, and urgency."},
+        {"role": "Accounting", "contribution": "Reviewed checking cash and payment controls."},
+        {"role": "Boss", "contribution": "Prioritized rent review and required human authorization."}
+      ],
+      "mcp_tools": ["get_rent_notice_context", "get_cash_position"],
+      "human_approvals": [{"approved_by": "Alexis Nitman", "kind": "rent", "amount": 2400.0, "checking_balance_after": 160.0}]
+    },
+    {
+      "ticket_id": 103,
+      "final_status": "open",
+      "short_outcome": "The team found 8 medium hoodies against a request for 20. The agents prepared the $440 purchase recommendation, but no purchase was made because ticket 103 still needs explicit human approval.",
+      "agents": [
+        {"role": "Inventory", "contribution": "Found a shortfall of 12 size-M hoodies."},
+        {"role": "Accounting", "contribution": "Reviewed cost, list price, cash exposure, and approval requirements."},
+        {"role": "Boss", "contribution": "Compared the shortage and purchase cost, then sent the decision to a human approver without resolving the ticket."}
+      ],
+      "mcp_tools": ["get_bulk_discount_context", "get_cash_position"],
+      "human_approvals": []
+    }
+  ]
+}
